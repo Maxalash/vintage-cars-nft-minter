@@ -20,8 +20,13 @@ export default function Home() {
   const [tokenIdsMinted, setTokenIdsMinted] = useState("0");
 
   const [isMember, setMember] = useState(true)
+
+  const [isMinted, setminted] = useState(false);
+
+
   // Create a reference to the Web3 Modal (used for connecting to Metamask) which persists as long as the page is open
   const web3ModalRef = useRef();
+
 
   /**
    * presaleMint: Mint an NFT during the presale
@@ -44,9 +49,10 @@ export default function Home() {
       await tx.wait();
       setLoading(false);
       window.alert("You successfully minted a Crypto Dev!");
+      setminted(true);
     } catch (err) {
       console.error(err.data);
-      if(err.message == "execution reverted: You are not whitelisted"){
+      if (err.message == "execution reverted: You are not whitelisted") {
         setMember(false)
       }
     }
@@ -73,6 +79,7 @@ export default function Home() {
       await tx.wait();
       setLoading(false);
       window.alert("You successfully minted a Crypto Dev!");
+      setminted(true);
     } catch (err) {
       console.error(err);
     }
@@ -248,6 +255,31 @@ export default function Home() {
     return web3Provider;
   };
 
+
+  const leftimages = useRef(null);
+  const rightimages = useRef(null);
+
+  let slideIndex = 0;
+
+  function showSlides() {
+    let i;
+    let slides = leftimages.current.children;
+    let rslides = rightimages.current.children;
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+      rslides[i].style.display = "none";
+    }
+    slideIndex++;
+    if (slideIndex > slides.length) { slideIndex = 1 }
+    slides[slideIndex - 1].style.display = "block";
+    rslides[slideIndex - 1].style.display = "block";
+
+    setTimeout(showSlides, 3000); // Change image every 2 seconds
+  }
+  useEffect(() => {
+    showSlides();
+  }, [])
+
   // useEffects are used to react to changes in state of the website
   // The array at the end of function call represents what state changes will trigger this effect
   // In this case, whenever the value of `walletConnected` changes - this effect will be called
@@ -287,6 +319,7 @@ export default function Home() {
         await getTokenIdsMinted();
       }, 5 * 1000);
     }
+
   }, [walletConnected]);
 
   /*
@@ -296,9 +329,14 @@ export default function Home() {
     // If wallet is not connected, return a button which allows them to connect their wllet
     if (!walletConnected) {
       return (
-        <button onClick={connectWallet} className={styles.button}>
-          Connect your wallet
-        </button>
+        <div>
+          <div className={styles.description}>
+            Connect to the Goerli ETH Network
+          </div>
+          <button className={styles.button} onClick={connectWallet}>
+            Connect Wallet
+          </button>
+        </div>
       );
     }
 
@@ -335,57 +373,96 @@ export default function Home() {
       return (
         <div>
           <div className={styles.description}>
-            Presale has started!!! If your address is whitelisted, Mint a Gachi Saga 🥳
+            Presale has started!!! If your address is whitelisted, Mint a Mint Vintage Cars 🥳
           </div>
           <button className={styles.button} onClick={presaleMint}>
-            Presale Mint 🚀
+            Presale Mint
           </button>
         </div>
       );
     }
 
     // If presale started and has ended, its time for public minting
-    if (presaleStarted && presaleEnded && tokenIdsMinted<50) {
+    if (presaleStarted && presaleEnded && tokenIdsMinted < 50) {
       return (
         <button className={styles.button} onClick={publicMint}>
-          Get Mint 🚀
+          Get Mint
         </button>
       );
     }
 
 
 
-    if (presaleStarted && presaleEnded && tokenIdsMinted>=50) {
+    if (presaleStarted && presaleEnded && tokenIdsMinted >= 50) {
       return (
         <div className={styles.description}> Thank you for you purchase! </div>
       );
     }
   };
 
+  const linkTo = (linkin) => {
+    if (isMinted) {
+      return (
+        <footer className={styles.footer}>
+          <a href={linkin}>View your minted NFT</a>
+        </footer>
+      )
+    }
+  }
+
   return (
     <div>
       <Head>
-        <title>Gachi Saga</title>
+        <title>Vintage Cars</title>
         <meta name="description" content="Whitelist-Dapp" />
         <link rel="icon" href="./icon.png" />
       </Head>
       <div className={styles.back}></div>
+      <div ref={leftimages} className={`${styles.show} ${styles.leftpos}`} >
+        <img className={styles.fade} src="../nfts/Picture1.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+        <img className={styles.fade} src="../nfts/Picture2.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+        <img className={styles.fade} src="../nfts/Picture3.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+        <img className={styles.fade} src="../nfts/Picture4.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+        <img className={styles.fade} src="../nfts/Picture5.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+        <img className={styles.fade} src="../nfts/Picture6.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+        <img className={styles.fade} src="../nfts/Picture7.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+        <img className={styles.fade} src="../nfts/Picture8.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+        <img className={styles.fade} src="../nfts/Picture9.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+        <img className={styles.fade} src="../nfts/Picture10.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+        <img className={styles.fade} src="../nfts/Picture11.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+        <img className={styles.fade} src="../nfts/Picture12.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+      </div>
+
+      <div ref={rightimages} className={`${styles.show} ${styles.rightpos}`}>
+        <img className={styles.fade} src="../nfts/Picture13.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+        <img className={styles.fade} src="../nfts/Picture14.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+        <img className={styles.fade} src="../nfts/Picture15.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+        <img className={styles.fade} src="../nfts/Picture16.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+        <img className={styles.fade} src="../nfts/Picture17.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+        <img className={styles.fade} src="../nfts/Picture18.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+        <img className={styles.fade} src="../nfts/Picture19.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+        <img className={styles.fade} src="../nfts/Picture20.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+        <img className={styles.fade} src="../nfts/Picture21.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+        <img className={styles.fade} src="../nfts/Picture22.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+        <img className={styles.fade} src="../nfts/Picture23.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+        <img className={styles.fade} src="../nfts/Picture24.jpg" alt="Vintage Cars" width="100%" height="100%"></img>
+      </div>
+
       <div className={styles.main}>
         <div>
-          <h1 className={styles.title}>Welcome to Gachi Saga!</h1>
+          <h1 className={styles.title}>Legendary Vintage Cars!</h1>
           <div className={styles.description}>
-            Its an NFT collection for lover of the Gachimuchi.
+            100 collectible Vintage Cars NFTs
           </div>
+          <h1 className={styles.title}>1 Vintage Car costs 0.00001 ETH</h1>
           <div className={styles.description}>
-            {tokenIdsMinted}/100 have been minted
+            excluding Gas fees.
           </div>
+          <div className={styles.title}>{tokenIdsMinted}/100</div>
           {renderButton()}
         </div>
       </div>
-
-      <footer className={styles.footer}>
-        Made with &#10084; by Gachi Saga
-      </footer>
+      {linkTo("https://testnets.opensea.io/assets/goerli/0x00f31c4968eaaa7d549E4fA40E2a6325fB74E749/" + tokenIdsMinted)}
     </div>
   );
 }
