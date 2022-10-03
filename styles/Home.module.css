@@ -21,6 +21,54 @@
     background-size: cover;
 }
 
+.show{
+  position: absolute;
+  top: 200px;
+  width: 250px;
+  height: 200px;
+  border-radius: 50%;
+  border: 25px solid rgb(73, 42, 1);
+  -webkit-animation:spin 8s linear infinite;
+  -moz-animation:spin 8s linear infinite;
+  animation:spin 8s linear infinite;
+}
+.leftpos{
+  left:70px;
+}
+
+.rightpos{
+  right:70px;
+}
+.show > img{
+  position: absolute;
+  border-radius: 40px;
+  border: 10px solid rgb(32, 21, 8);
+}
+
+.fade {
+  animation-name: fade;
+  animation-duration:1.2s;
+}
+
+
+@keyframes fade {
+  from {opacity: .1} 
+  to {opacity: 1}
+}
+
+@-moz-keyframes spin { 
+    100% { -moz-transform: rotate(360deg); } 
+}
+@-webkit-keyframes spin { 
+    100% { -webkit-transform: rotate(360deg); } 
+}
+@keyframes spin { 
+    100% { 
+        -webkit-transform: rotate(360deg); 
+        transform:rotate(360deg); 
+    } 
+}
+
 .main {
   min-height: 70vh;
   width: 50%;
@@ -28,46 +76,59 @@
   margin-top: 60px;
   margin-bottom: 60px;
   transform: translateX(-50%);
- border-radius: 50px;
+ border-radius: 180px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   font-family: "Courier New", Courier, monospace;
   background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0, 0.6); /* Black w/opacity/see-through */
+  background-color: rgba(0,0,0, 0.9); /* Black w/opacity/see-through */
+  border: 20px solid rgb(73, 42, 1);
+  color: white;
+}
+.main::before {
+  content: "";
+  position: absolute;
+  height: 98%;
+  width: 98%;
+  border-radius: 180px;
+  display: flex;
+  border: 18px solid rgb(32, 21, 8);
   color: white;
 }
 
 .footer {
   display: flex;
   padding: 2rem 0;
-  border-top: 1px solid #eaeaea;
   justify-content: center;
   align-items: center;
+  font-family: "Courier New", Courier, monospace;
+  border-top-left-radius: 80px;
+  border-top-right-radius: 80px;
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.8); /* Black w/opacity/see-through */
+  border-top: 20px solid rgb(73, 42, 1);
   color: white;
-}
-
-.image {
-  width: 70%;
-  height: 50%;
-  margin-left: 20%;
 }
 
 .title {
   font-size: 2rem;
   margin: 2rem 0;
+  text-align: center;
 }
+
 
 .description {
   line-height: 1;
   margin: 2rem 0;
   font-size: 1.2rem;
+  text-align: center;
 }
 
 .button {
-  border-radius: 4px;
-  background-color: rgb(43, 210, 60);
+  border-radius: 30px;
+  background-color: rgb(73, 42, 1);
   border: none;
   color: #ffffff;
   font-size: 15px;
@@ -75,6 +136,8 @@
   width: 200px;
   cursor: pointer;
   margin-bottom: 2%;
+  margin-left: 50%;
+  transform: translateX(-50%);
 }
 @media (max-width: 1000px) {
   .main {
